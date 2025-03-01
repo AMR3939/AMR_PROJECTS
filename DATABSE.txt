@@ -1,0 +1,69 @@
+
+
+create table user(
+u_id int AUTO_INCREMENT PRIMARY KEY,
+username VARCHAR(25) UNIQUE NOT NULL,
+password VARCHAR(25) NOT NULL,
+full_name VARCHAR(25) NOT NULL,
+phone_number VARCHAR(25) NOT NULL,
+address varchar(25) not null,
+email varchar(25) not null,
+user_role varchar(25) not null
+);
+
+create table repair(
+repair_id int auto_increment primary key,
+date_reported date not null,
+reported_by varchar(30) not null,
+location varchar(30) not null,
+repair_start_date date,
+repair_end_date date,
+repair_status Enum('In progress', 'On hold', 'Completed') not null,
+repair_cost decimal(10,2) not null);
+
+CREATE TABLE bikes (
+    bike_id INT AUTO_INCREMENT PRIMARY KEY,
+    brand VARCHAR(50),
+    model VARCHAR(50),
+    registration_no varchar(15),
+    color VARCHAR(20),
+    daily_rate DECIMAL(8,2),
+    is_available ENUM('Yes','No'),
+    rented_by varchar(25)
+);
+
+CREATE TABLE pickup (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    pickupDateTime DATE NOT NULL,
+    dropoffDateTime DATE NOT NULL,
+    username varchar(25),
+    FOREIGN KEY (username) REFERENCES user(username)
+);
+
+
+CREATE TABLE payments (
+    payment_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    bike_id INT,
+    payment_date DATE NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,,
+    FOREIGN KEY (user_id) REFERENCES user(u_id),
+    FOREIGN KEY (bike_id) REFERENCES bikes(bike_id)
+);
+
+
+CREATE TABLE customer_payments (
+    payment_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    card_number VARCHAR(20) NOT NULL,
+    amount DOUBLE NOT NULL,
+    bike_id INT NOT NULL,
+    rented_by VARCHAR(50) NOT NULL,
+    rental_duration INT NOT NULL,
+    daily_rate DOUBLE NOT NULL,
+    total_amount DOUBLE NOT NULL,
+    payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES user(u_id),
+    FOREIGN KEY (bike_id) REFERENCES bikes(bike_id)
+);
+
